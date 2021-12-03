@@ -1,0 +1,7 @@
+.vscode
+.DS_Store
+.env
+kafka-protobuf-producer
+go.sum
+.gitattributes
+__debug_bin

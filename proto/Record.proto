@@ -1,0 +1,11 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+package proto;
+
+option go_package = "github.com/kafka-protobuf-producer/protoc";
+
+message Record {
+    string recordId = 1;
+    google.protobuf.Timestamp createdAt = 2;
+    string updatedBy = 3;
+}
