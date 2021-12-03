@@ -14,6 +14,10 @@ This project is used to produce protobuf messages message to given kafka topic
 - able to discover all register protobuf message
 - able to convert json to protobuf message dynamically, and send protobuf message to given topic
 
+## Architecture Diagram 
+
+![Screenshot](architecture-diagram.png)
+
 ## How to Use
 
 0. Clone the repository into any folder/workspace you want
