@@ -119,8 +119,8 @@ func (kp *KafkaProducer) formatProtoWithPackageName(protoName string) (string, e
 	fileDescriptor, ok := kp.ProtobufService.ProtoTypeMap[protoName]
 	if ok {
 		pkg := fileDescriptor.GetPackage()
-		var replace = strings.Replace(protoName, "proto.", "", 1)
-		replace = strings.Replace(replace, ".proto", "", 1)
+		var replace = strings.Replace(protoName, ".proto", "", 1)
+		replace = strings.Replace(replace, ".", "/", -1)
 		return fmt.Sprintf("%s.%s", pkg, replace), nil
 	}
 	return "", errors.New("Proto Not Registered : " + protoName)
