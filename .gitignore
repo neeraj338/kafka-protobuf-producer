@@ -1,6 +1,7 @@
 .vscode
 .DS_Store
 .env
+generated/
 kafka-protobuf-producer
 go.sum
 .gitattributes
