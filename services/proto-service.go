@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -144,6 +145,6 @@ func (p *ProtoService) ToProtoMessageNOT_IN_USE(messageName string, messageBytes
 }
 
 func getName(pkg string, name string) string {
-	result := strings.Replace(name, pkg, "", 1)
-	return strings.Replace(result, "/", "", 1)
+	result := strings.Replace(name, fmt.Sprintf("%s/", pkg), "", 1)
+	return strings.Replace(result, "/", ".", -1)
 }
