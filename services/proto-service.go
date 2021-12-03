@@ -68,6 +68,12 @@ func (p *ProtoService) RegisterProtoFile() error {
 	// We know protoc was invoked with a multiple .proto file.
 	for _, pb := range pbSet.GetFile() {
 		protoName := getName(pb.GetPackage(), pb.GetName())
+		_, ok := p.ProtoTypeMap[protoName]
+		if ok || strings.Contains(pb.GetName(), "google/protobuf/descriptor.proto") {
+			log.Printf("Ignore .. Register proto --> %v", protoName)
+			continue
+		}
+
 		log.Printf("loading .. file descriptor --> %v", protoName)
 		p.ProtoTypeMap[protoName] = *pb
 		// Initialize the file descriptor object.
