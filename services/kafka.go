@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"regexp"
 	"strings"
 
 	"encoding/base64"
@@ -130,10 +131,11 @@ func (kp *KafkaProducer) formatProtoWithPackageName(protoName string) (string, e
 		replace = strings.Replace(replace, fmt.Sprintf("%s.", pkg), "", 1)
 		var messageWithPkg = fmt.Sprintf("%s.%s", pkg, replace)
 		
-		//replace with actual proto message name 
+		//replace with actual proto message name
+		regx := regexp.MustCompile(fmt.Sprintf("(?i)%s", replace))
 		for _, mt := range fileDescriptor.GetMessageType() {
 			
-			if strings.Contains(replace, mt.GetName()) || strings.Contains(mt.GetName(), replace) {
+			if strings.Contains(replace, mt.GetName()) || strings.Contains(mt.GetName(), replace) || regx.MatchString(mt.GetName()) {
 				log.Printf("Real Message Name is :: %s", mt.GetName())
 				messageWithPkg = fmt.Sprintf("%s.%s", pkg, mt.GetName())
 			}
