@@ -135,7 +135,7 @@ func (kp *KafkaProducer) formatProtoWithPackageName(protoName string) (string, e
 		regx := regexp.MustCompile(fmt.Sprintf("(?i)%s", replace))
 		for _, mt := range fileDescriptor.GetMessageType() {
 			
-			if strings.Contains(replace, mt.GetName()) || strings.Contains(mt.GetName(), replace) || regx.MatchString(mt.GetName()) {
+			if regx.MatchString(mt.GetName()) {
 				log.Printf("Real Message Name is :: %s", mt.GetName())
 				messageWithPkg = fmt.Sprintf("%s.%s", pkg, mt.GetName())
 			}
