@@ -118,10 +118,27 @@ func (kp *KafkaProducer) Produce(topic string, message []byte) {
 func (kp *KafkaProducer) formatProtoWithPackageName(protoName string) (string, error) {
 	fileDescriptor, ok := kp.ProtobufService.ProtoTypeMap[protoName]
 	if ok {
+		fileExtension := ".proto"
 		pkg := fileDescriptor.GetPackage()
-		var replace = strings.Replace(protoName, ".proto", "", 1)
-		replace = strings.Replace(replace, ".", "/", -1)
-		return fmt.Sprintf("%s.%s", pkg, replace), nil
+		//replace .proto extension 
+		var replace = protoName
+		indx := strings.LastIndex(protoName, fileExtension)
+		if indx != -1 {
+			replace = protoName[:indx] + strings.Replace(protoName[indx:], fileExtension, "", 1)
+		}
+		//replace packagename
+		replace = strings.Replace(replace, fmt.Sprintf("%s.", pkg), "", 1)
+		var messageWithPkg = fmt.Sprintf("%s.%s", pkg, replace)
+		
+		//replace with actual proto message name 
+		for _, mt := range fileDescriptor.GetMessageType() {
+			
+			if strings.Contains(replace, mt.GetName()) || strings.Contains(mt.GetName(), replace) {
+				log.Printf("Real Message Name is :: %s", mt.GetName())
+				messageWithPkg = fmt.Sprintf("%s.%s", pkg, mt.GetName())
+			}
+		}
+		return messageWithPkg, nil
 	}
 	return "", errors.New("Proto Not Registered : " + protoName)
 }
