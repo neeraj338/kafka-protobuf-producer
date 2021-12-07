@@ -61,7 +61,7 @@ curl -d '{"data": "eyJyZWNvcmRJZCI6IjAwMSIsICJjcmVhdGVkQXQiOiIyMDIxLTEyLTAyVDAwO
 
 Note: _data is base64 encoded json string_
 
-_Make sure protifile name and message name should be same - sake os simplicity_
+_Make sure protifile name and message name should be same - sake of simplicity_
 
 ## Header
 
